@@ -1,3 +1,6 @@
+// stack memory : parameters, local variables
+// static(data) memory : global object, static object
+
 #include <iostream>
 using namespace std;
 
@@ -5,25 +8,30 @@ class Circle
 {
 private:
     double radius;
+    static int count;  // static object
+
 public:
-    //constructor
+    // constructor
     Circle() {
-        cout << this << "원 객체 생성(기본 생성자)\n";
+        cout << this << "원 객체 생성 (기본 생성자)\n";
+        count++;
     }
     Circle(double r) {
-        cout << this << "원 객체 생성(매개변수 생성자)\n";
+        cout << this << "원 객체 생성 (매개변수 생성자)\n";
         radius = r;
+        count++;
     }
     Circle(const Circle& c) {
-        cout << this << "원 객체 생성(복사 생성자)\n";
+        cout << this << "원 객체 생성 (복사 생성자)\n";
         radius = c.radius;
-    }
-    //
-    ~Circle() {
-        cout << this << "원 객체 소멸\n";
+        count++;
     }
 
-    //inline
+    ~Circle() {
+        cout << this << "원 객체 소멸\n";
+        count--;
+    }
+    // inline member function
     double getRadius() const {
         return radius;
     }
@@ -35,34 +43,57 @@ public:
         const double PI = 3.14;
         return (2 * PI * radius);
     }
-    inline void setRadius(double value) { radius = value; }
+    void setRadius(double value);  // inline O
+
+    static int getCount();
 };
 
-Circle circle5;//1번째 생성
+int Circle::count = 0;
+
+int Circle::getCount() {
+    return count;
+}
+
+inline void Circle::setRadius(double value)
+{
+    radius = value;
+}
+
+Circle circle5;  // global object
 
 void test() {
-    Circle circle6(2.0);//3번째 생성 후 삭제
+    Circle circle6(2.0);
+    cout << Circle::getCount() << "개\n";
 }
 
 int main()
 {
-    Circle circle1; //2번째 생성
+    cout << Circle::getCount() << "개\n";
+
+    Circle circle1;
     circle1.setRadius(10.0);
     cout << "Radius: " << circle1.getRadius() << endl;
     cout << "Area: " << circle1.getArea() << endl;
     cout << "Perimeter: " << circle1.getPerimeter() << endl << endl;
 
-    test();//3번째 생성 후 삭제
+    cout << Circle::getCount() << "개\n";
 
-    Circle circle2;//4번째 생성
+    test();
+
+    cout << Circle::getCount() << "개\n";
+
+    Circle circle2;
     circle2.setRadius(20.0);
     cout << "Radius: " << circle2.getRadius() << endl;
     cout << "Area: " << circle2.getArea() << endl;
     cout << "Perimeter: " << circle2.getPerimeter() << endl << endl;
 
-    Circle circle3(5.0);//5번째 생성
+    Circle circle3(5.0);
 
-    Circle circle4(circle2);//6번째 생성
+    Circle circle4(circle2);
     cout << "Radius: " << circle4.getRadius() << endl;
+
+    cout << Circle::getCount() << "개\n";
+
     return 0;
 }
