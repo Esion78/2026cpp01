@@ -94,6 +94,7 @@ int main()
     cout << "Radius: " << circle4.getRadius() << endl;
 
     cout << Circle::getCount() << "개\n";
-
+    //cout << circle4.getCount() << "개\n"; -> 가능
+    //cout << circle6.getCount() << "개\n"; -> 소멸되어 불가능, 살아있는 애를 부르기만 하면 getCount값 반환 가능(?)
     return 0;
 }
