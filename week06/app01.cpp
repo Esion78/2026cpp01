@@ -62,7 +62,7 @@ inline void Circle::setRadius(double value)
 
 Circle circle5;  // global object
 
-void test() {
+Circle* test() {
     Circle circle6(2.0);
     Circle* circle7 = new Circle(circle6); //allocate heap memory
     cout << Circle::getCount() << "개\n";
@@ -70,8 +70,10 @@ void test() {
     // cout << circle7.getRadius() << "\n; -> error(포인터)
     cout << (*circle7).getRadius() << "\n";
     cout << circle7->getRadius() << "\n";
-    delete circle7; // free heap memory
+
+    //delete circle7; // free heap memory
     cout << Circle::getCount() << "개\n";
+    return circle7;
 }
 
 int main()
@@ -86,7 +88,11 @@ int main()
 
     cout << Circle::getCount() << "개\n";
 
-    test();
+    Circle* circle8 = test();
+    cout << circle8->getRadius() << "\n";
+    cout << circle8->getArea() << "\n";
+    delete circle8; // heap memory에 할당된 객체를 삭제(소멸자 동작)
+    circle8 = nullptr; // 포인터가 가지고 있던 heap memory 번지 주소를 0으로 초기화
 
     cout << Circle::getCount() << "개\n";
 
