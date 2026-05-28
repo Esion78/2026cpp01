@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-using namespace std;
 #include "pokemon.h"
 #include "pikachu.h"
 
